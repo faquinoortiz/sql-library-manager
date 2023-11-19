@@ -2,11 +2,6 @@ const express = require('express');
 const router = express.Router();
 const { Book } = require('../models');
 
-// Redirect the home route to /books
-router.get('/', (req, res) => {
-  res.redirect('/books');
-});
-
 // Show the full list of books
 router.get('/books', async (req, res, next) => {
   try {
@@ -44,7 +39,7 @@ router.get('/books/:id', async (req, res, next) => {
     if (book) {
       res.render('books/update-book', { book });
     } else {
-      res.render('error', { message: 'Book not found', error: {} });
+      res.status(404).render('error', { message: 'Book not found', error: {} });
     }
   } catch (error) {
     next(error);
@@ -59,7 +54,7 @@ router.post('/books/:id', async (req, res, next) => {
       await book.update(req.body);
       res.redirect('/books');
     } else {
-      res.render('error', { message: 'Book not found', error: {} });
+      res.status(404).render('error', { message: 'Book not found', error: {} });
     }
   } catch (error) {
     if (error.name === 'SequelizeValidationError') {
@@ -79,7 +74,7 @@ router.post('/books/:id/delete', async (req, res, next) => {
       await book.destroy();
       res.redirect('/books');
     } else {
-      res.render('error', { message: 'Book not found', error: {} });
+      res.status(404).render('error', { message: 'Book not found', error: {} });
     }
   } catch (error) {
     next(error);
