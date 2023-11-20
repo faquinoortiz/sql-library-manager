@@ -17,7 +17,7 @@ var booksRouter = require('./routes/books');
 // Use routes
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/books', booksRouter); 
+app.use('/books', booksRouter);
 
 // Catch 404 and forward to the error handler
 app.use((req, res, next) => {
@@ -37,8 +37,7 @@ app.use((err, req, res, next) => {
 
 // Set up database connection
 const sequelize = require('./models/index').sequelize;
-sequelize
-  .authenticate()
+sequelize.authenticate()
   .then(() => {
     console.log('Connection to the database has been established successfully');
     return sequelize.sync();
@@ -50,7 +49,6 @@ sequelize
     console.error('Unable to connect to the database or sync models:', err);
   });
 
-app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
 module.exports = app;

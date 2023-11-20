@@ -6,7 +6,7 @@ const { Book } = require('../models');
 router.get('/', async (req, res, next) => {
   try {
     const books = await Book.findAll();
-    res.render('books/index', { books });
+    res.render('index', { books });
   } catch (error) {
     next(error);
   }
@@ -37,7 +37,7 @@ router.get('/:id', async (req, res, next) => {
   try {
     const book = await Book.findByPk(req.params.id);
     if (book) {
-      res.render('books/update-book', { book });
+      res.render('/update-book', { book });
     } else {
       res.status(404).render('error', { message: 'Book not found', error: {} });
     }
@@ -59,7 +59,7 @@ router.post('/:id', async (req, res, next) => {
   } catch (error) {
     if (error.name === 'SequelizeValidationError') {
       const book = await Book.findByPk(req.params.id);
-      res.render('books/update-book', { book, errors: error.errors });
+      res.render('/update-book', { book, errors: error.errors });
     } else {
       next(error);
     }
@@ -67,7 +67,7 @@ router.post('/:id', async (req, res, next) => {
 });
 
 // Delete a book
-router.post(':id/delete', async (req, res, next) => {
+router.post('/:id/delete', async (req, res, next) => {
   try {
     const book = await Book.findByPk(req.params.id);
     if (book) {

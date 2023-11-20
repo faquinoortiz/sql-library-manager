@@ -2,7 +2,6 @@ extends layout
 
 block content
   h1 New Book
-
   form(method='post', action='/books/new')
     h2.error Oooops!
     ul.error
@@ -12,14 +11,12 @@ block content
     p
       label(for='title') Title
       input(type='text', name='title', id='title', value=book ? book.title : '')
-      
       if errors && errors.find(error => error.path === 'title')
         p.error= errors.find(error => error.path === 'title').message
 
     p
       label(for='author') Author
       input(type='text', name='author', id='author', value=book ? book.author : '')
-      
       if errors && errors.find(error => error.path === 'author')
         p.error= errors.find(error => error.path === 'author').message
 
@@ -35,4 +32,4 @@ block content
       input(type='submit', value='Create New Book')
 
     p
-      a.button(href='all_books.html') Cancel
+      a.button(href='/books') Cancel
