@@ -1,0 +1,9 @@
+extends layout
+
+block content
+  h1 Book List
+  ul
+    each book in books
+      li
+        a(href=`/books/${book.id}`)= book.title
+  a(href='/books/new') Create New Book
