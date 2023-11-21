@@ -14,7 +14,7 @@ router.get('/', async (req, res, next) => {
 
 // Show the create new book form
 router.get('/new', (req, res) => {
-  res.render('books/new-book');
+  res.render('/new-book');
 });
 
 // Post a new book to the database
@@ -25,7 +25,7 @@ router.post('/new', async (req, res, next) => {
   } catch (error) {
     if (error.name === 'SequelizeValidationError') {
       const books = await Book.findAll();
-      res.render('books/new-book', { books, errors: error.errors });
+      res.render('/new-book', { books, errors: error.errors });
     } else {
       next(error);
     }
