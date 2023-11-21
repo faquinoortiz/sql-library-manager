@@ -2,30 +2,30 @@ const express = require('express');
 const router = express.Router();
 const { Book } = require('../models');
 
-//Shows the full list of books
+// Shows the full list of books
 router.get('/', async (req, res, next) => {
   try {
     const books = await Book.findAll();
-    res.render('index', { books });
+    res.render('index', { books, title: "Book List" });
   } catch (error) {
     next(error);
   }
 });
 
 // Show the create new book form
-router.get('/new', (req, res) => {
-  res.render('/new-book');
+router.get('/new', (req, res, next) => {
+  res.render('new-book', { title: "New Book" });
 });
 
 // Post a new book to the database
 router.post('/new', async (req, res, next) => {
   try {
-    await Book.create(req.body);
+    const newBook = await Book.create(req.body);
     res.redirect('/books');
   } catch (error) {
     if (error.name === 'SequelizeValidationError') {
       const books = await Book.findAll();
-      res.render('/new-book', { books, errors: error.errors });
+      res.render('new-book', { title: "New Book", errors: error.errors });
     } else {
       next(error);
     }
@@ -36,10 +36,10 @@ router.post('/new', async (req, res, next) => {
 router.get('/:id', async (req, res, next) => {
   try {
     const book = await Book.findByPk(req.params.id);
-    if (book) {
-      res.render('books/update-book', { book });
-    } else {
+    if (!book) {
       res.status(404).render('error', { message: 'Book not found', error: {} });
+    } else {
+      res.render('update-book', { book });
     }
   } catch (error) {
     next(error);
@@ -49,9 +49,9 @@ router.get('/:id', async (req, res, next) => {
 // Update book info in the database
 router.post('/:id', async (req, res, next) => {
   try {
-    const book = await Book.findByPk(req.params.id);
-    if (book) {
-      await book.update(req.body);
+    const updateBook = await Book.findByPk(req.params.id);
+    if (updateBook) {
+      await updateBook.update(req.body);
       res.redirect('/books');
     } else {
       res.status(404).render('error', { message: 'Book not found', error: {} });
@@ -59,7 +59,7 @@ router.post('/:id', async (req, res, next) => {
   } catch (error) {
     if (error.name === 'SequelizeValidationError') {
       const book = await Book.findByPk(req.params.id);
-      res.render('books/update-book', { book, errors: error.errors });
+      res.render('update-book', { book, errors: error.errors });
     } else {
       next(error);
     }
