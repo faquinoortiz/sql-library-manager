@@ -2,34 +2,25 @@ extends layout
 
 block content
   h1 New Book
-  form(method='post', action='/books/new')
-    h2.error Oooops!
-    ul.error
+  form(method='post',action='/books/new')
+    if errors
+      h2.error Oooops!
+      ul.error
       each error in errors
-        li= error.message
-
+        li=error
     p
       label(for='title') Title
-      input(type='text', name='title', id='title', value=book ? book.title : '')
-      if errors && errors.find(error => error.path === 'title')
-        p.error= errors.find(error => error.path === 'title').message
-
+      input(type='text', name='title', id='title', value=book ? book.title : null)
     p
       label(for='author') Author
-      input(type='text', name='author', id='author', value=book ? book.author : '')
-      if errors && errors.find(error => error.path === 'author')
-        p.error= errors.find(error => error.path === 'author').message
-
+      input(type='text', name='author', id='author', value=book ? book.author : null) 
     p
       label(for='genre') Genre
-      input(type='text', name='genre', id='genre', value=book ? book.genre : '')
-
+      input(type='text', name='genre', id='genre', value=book ? book.genre : null)
     p
       label(for='year') Year
-      input(type='text', name='year', id='year', value=book ? book.year : '')
-
+      input(type='text', name='year', id='year', value=book ? book.year : null)
     p
       input(type='submit', value='Create New Book')
-
     p
       a.button(href='/books') Cancel
