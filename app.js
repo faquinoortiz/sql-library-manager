@@ -27,6 +27,8 @@ app.use('/books', booksRouter);
 app.use((req, res, next) => {
   const error = new Error('Not Found');
   error.status = 404;
+  error.message = "Page Not Found"
+  res.render("page-not-found", {error})
   next(error);
 });
 
