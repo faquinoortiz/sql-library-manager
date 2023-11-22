@@ -47,7 +47,7 @@ router.get('/:id', async (req, res, next) => {
 });
 
 // Update book info in the database
-router.post('/:id', async (req, res, next) => {
+router.post('/:id', async (req, res) => {
   try {
     const updateBook = await Book.findByPk(req.params.id);
     if (updateBook) {
