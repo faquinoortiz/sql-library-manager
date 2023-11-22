@@ -9,6 +9,8 @@ var app = express();
 
 app.use(express.json());
 // Sets up static middleware to serve files from the 'public' directory
+app.use(express.urlencoded({ extended: false }));
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Import routes
